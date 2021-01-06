@@ -9,26 +9,18 @@ public class Main {
 
     public static void main(String[] args) {
 
-        //Instantiate via Facto        //Instantiate via Factory Methodry Method
+        //Instantiate via Factory Method
         ExecutorService executorService = Executors.newFixedThreadPool(10);
 
-        //Assign Runnable and/or Callable tasks
-        Runnable runnableTask = () -> {
-            try {
-                TimeUnit.MILLISECONDS.sleep(60);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+        //Execute a runnable task
+        executorService.execute(new Runnable() {
+            @Override
+            public void run() {
+                System.out.println("Async tasks performed on background thread");
             }
-        };
+        });
 
-        //Execute
-        executorService.execute(runnableTask);
-
-        //Shutdown
-        //.shutdown() will finish any tasks that are still running
+        //Shutdown service
         executorService.shutdown();
-
-        //.shutdownNow() will shut down the service immediately and return a list of tasks are still waiting to get processed.
-        executorService.shutdownNow();
     }
 }
