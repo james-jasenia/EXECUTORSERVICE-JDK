@@ -3,18 +3,33 @@
 ## Purpose:
 The purpose of this codebase is to explore the ExecutorService interface and how tasks can be delegated to service for async exectution. 
 
-
-## Purpose: 
-The purpose of this app is to explore the Room Library and how it provides a layer of abstraction over SQLite to allow database access. Specifically, I am wanting to explore the 'convenience annotations' that minimise error-prone code (SQL). The documentation highly recommendeds that you Room instead of using the SQLite APIs directly. 
-
-##### Room Documentation: https://developer.android.com/training/data-storage/room?gclid=Cj0KCQiAlsv_BRDtARIsAHMGVSapV4bg9VhEDDfKxyhK2fuLiPLOf8n7JzNkSMuzUBRrEcU-T2The1gaAsceEALw_wcB&gclsrc=aw.ds
+## Overview
+The ExecutorService is an interface provided by the JDK which simplifies the execution of tasks asynchronously. It creates a pool of threads and provides an API for task assignement.
 
 ## Setup:
-Check the documentation for the dependencies you need to add to your app's build.gradle file. You may need to revisit the version number every now and then.
 
+#### Instantion:
+You can use a factory method for the Exectuors class to create a service.  You can create a service directly through an of the instances that implement the ExecutorService interface, however, for simplicity sake, I am going to stick to the factory method as a default.
 
-## Primary Components:
+```
+ExecutorService executorService = Executors.newFixedThreadPool(10);
+```
 
-### Data Entities
-#### @Entity
-Use this annotation in your model to let the compiler know that you want the model to be an entity.
+#### Task Assignment:
+ExecutorService can exectue Runnable and Callable tasks.
+```
+executorService.execute(new Runnable() {
+     @Override
+     public void run() {
+          System.out.println("Async tasks performed on background thread");
+     }
+});
+```
+
+#### Shutdown:
+You can choose to shutdown the executorService immediately but calling .showdownNow(). Any remaining tasks that are incomplete will be returned to you in a list. Alternatively, you can invoke .shutdown() which will shutdown the service after all of the remaining tasks are complete.
+```
+executorService.shutdown();
+executorService.shutdownNow();
+```
+
